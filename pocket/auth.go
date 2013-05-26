@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	redirURI = "127.0.0.1"
+	redirURI = "http://sellweek.github.io/pockettxt"
 )
 
 func Auth(cKey string) (token string, err error) {
