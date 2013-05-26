@@ -1,11 +1,8 @@
 package pocket
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 )
 
 const (
@@ -40,9 +37,16 @@ func requestToken(cKey string) (rToken string, err error) {
 		"redirect_uri": redirURI,
 	}
 
-	r, err := requestChain(data, "/v3/oauth/request")
+	body, err := requestChain(data, "/v3/oauth/request")
 	if err != nil {
 		fmt.Errorf("couldn't get a request token: %v", err)
+	}
+
+	r := make(map[string]string)
+	err = json.Unmarshal(body, &r)
+	if err != nil {
+		err = fmt.Errorf("couldn't unmarshal response: %v", err)
+		return
 	}
 
 	rToken = r["code"]
@@ -54,54 +58,18 @@ func accessToken(cKey, rToken string) (aToken string, err error) {
 		"consumer_key": cKey,
 		"code":         rToken,
 	}
-	r, err := requestChain(data, "/v3/oauth/authorize")
+	body, err := requestChain(data, "/v3/oauth/authorize")
 	if err != nil {
 		err = fmt.Errorf("couldn't get the access token: %v", err)
 	}
 
-	aToken = r["access_token"]
-	return
-}
-
-func requestChain(data map[string]string, url string) (response map[string]string, err error) {
-	jsData, err := json.Marshal(data)
-	if err != nil {
-		err = fmt.Errorf("couldn't marshal data: %v", err)
-		return
-	}
-
-	r, err := http.NewRequest("POST", "http://getpocket.com"+url, bytes.NewBuffer(jsData))
-	if err != nil {
-		err = fmt.Errorf("couldn't create request: %v", err)
-		return
-	}
-
-	r.Header.Add("Content-Type", "application/json; charset=UTF-8")
-	r.Header.Add("X-Accept", "application/json")
-
-	resp, err := http.DefaultClient.Do(r)
-	if err != nil {
-		err = fmt.Errorf("error when making request: %v", err)
-		return
-	}
-
-	if resp.StatusCode != 200 {
-		err = fmt.Errorf("Pocket returned error: %s", resp.Header.Get("X-Error"))
-		return
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		err = fmt.Errorf("couldn't read response: %v", err)
-		return
-	}
-
-	response = make(map[string]string)
-	err = json.Unmarshal(body, &response)
+	r := make(map[string]string)
+	err = json.Unmarshal(body, &r)
 	if err != nil {
 		err = fmt.Errorf("couldn't unmarshal response: %v", err)
 		return
 	}
 
+	aToken = r["access_token"]
 	return
 }
