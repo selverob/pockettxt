@@ -6,6 +6,8 @@ import (
 )
 
 func URLs(cKey, aToken string) (urls []string, err error) {
+	fmt.Println("Getting article list from Pocket")
+
 	data := map[string]string{
 		"consumer_key": cKey,
 		"access_token": aToken,
