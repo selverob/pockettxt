@@ -3,6 +3,7 @@ package pocket
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/toqueteos/webbrowser"
 )
 
 const (
@@ -17,8 +18,13 @@ func Auth(cKey string) (token string, err error) {
 	}
 
 	url := fmt.Sprintf("https://getpocket.com/auth/authorize?request_token=%s&redirect_uri=%s", rToken, redirURI)
-	fmt.Println("Please open the following URL in your browser, log in and then press enter")
-	fmt.Println(url)
+	if err = webbrowser.Open(url); err == nil {
+		fmt.Println("Login page should have opened in your browser")
+		fmt.Println("Please log in and then come back and press enter")
+	} else {
+		fmt.Println("Please open the following URL in your browser, log in and then press enter")
+		fmt.Println(url)
+	}
 
 	var str string
 	fmt.Scanf("%s", &str)
