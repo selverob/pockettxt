@@ -51,6 +51,7 @@ func main() {
 		return
 	}
 
+	fmt.Println("Writing articles to a file.")
 	err = writeArticles("pocket.txt", as)
 	if err != nil {
 		fmt.Println("Error while writing articles to file: ", err)
