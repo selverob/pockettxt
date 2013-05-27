@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Pockettxt by sellweek</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Pockettxt</h1>
+        <p>Export articles in your Pocket as text files</p>
+        <p class="view"><a href="https://github.com/sellweek/pockettxt">View the Project on GitHub <small>sellweek/pockettxt</small></a></p>
+        <ul>
+          <li><a href="https://github.com/sellweek/pockettxt/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/sellweek/pockettxt/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/sellweek/pockettxt">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <blockquote>
+<p>If you have arrived at this page after logging in to Pocket, go back to your command line
+and press enter. </p>
+</blockquote>
+
+<h1>PocketTxt</h1>
+
+<p>Export articles in your <a href="http://getpocket.com">Pocket</a> as text files</p>
+
+<h2>What does it do?</h2>
+
+<p>PocketTxt is a utility that enables you to download your unread Pocket articles, saving them into a single text file that can be then uploaded to your Kindle or another ebook reader.</p>
+
+<h2>How does it work?</h2>
+
+<p>It uses Pocket's API to authenticate and get URLs of your unread articles. Since Pocket's API to access scraped articles is not publicly available, those URLs are then passed to <a href="http://diffbot.com">Diffbot</a>.</p>
+
+<h2>How do I use it?</h2>
+
+<p>Just <code>go get github.com/sellweek/pockettxt</code>, run the program and follow the on-screen instructions.</p>
+
+<p>If you want a little bit more control, though, you can use some command-line flags.</p>
+
+<ul>
+<li><p><code>-aToken=&lt;token&gt;</code> bypasses the authentication process and just uses the provided token. Your access token is printed while running pockettxt. It looks something like this: <code>0123456-789a-bcde-f123-456789</code></p></li>
+<li><p><code>-filename=&lt;filename&gt;</code> sets the name of the file which will be written</p></li>
+</ul>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/sellweek">sellweek</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
