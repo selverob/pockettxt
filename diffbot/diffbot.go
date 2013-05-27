@@ -3,23 +3,13 @@ package diffbot
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/sellweek/pockettxt/article"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 )
 
-type Article struct {
-	Title  string
-	Author string
-	Text   string
-	//Date could be time.Time but
-	//since we're not doing anything with it,
-	//why bother converting it?
-	Date string
-	URL  string
-}
-
-func Articles(urls []string, token string) (as []Article, err error) {
+func Articles(urls []string, token string) (as []article.Article, err error) {
 	fmt.Println("Requesting articles from Diffbot")
 
 	reqData := make([]map[string]string, len(urls))
@@ -87,7 +77,7 @@ func makeRequest(batch []byte, token string) (r *http.Response, err error) {
 	return
 }
 
-func decodeResponse(js []byte) (as []Article, err error) {
+func decodeResponse(js []byte) (as []article.Article, err error) {
 	raw := make([]map[string]interface{}, 0)
 	err = json.Unmarshal(js, &raw)
 	if err != nil {
@@ -95,7 +85,7 @@ func decodeResponse(js []byte) (as []Article, err error) {
 		return
 	}
 
-	as = make([]Article, 0)
+	as = make([]article.Article, 0)
 
 	for _, r := range raw {
 		rawArt := r["body"]
@@ -112,7 +102,7 @@ func decodeResponse(js []byte) (as []Article, err error) {
 		date, _ := artData["date"].(string)
 		URL, _ := artData["url"].(string)
 
-		a := Article{
+		a := article.Article{
 			Title:  title,
 			Author: author,
 			Text:   text,
