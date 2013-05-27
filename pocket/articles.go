@@ -26,7 +26,7 @@ func URLs(cKey, aToken string) (urls []string, err error) {
 	}
 
 	articleList := as["list"].(map[string]interface{})
-	urls = make([]string, len(articleList), len(articleList))
+	urls = make([]string, 0, len(articleList))
 
 	for _, a := range articleList {
 		urls = append(urls, a.(map[string]interface{})["resolved_url"].(string))
