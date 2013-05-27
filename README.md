@@ -16,4 +16,4 @@ If you want a little bit more control, though, you can use some command-line fla
 
 * `-aToken=<token>` bypasses the authentication process and just uses the provided token. Your access token is printed while running pockettxt. It looks something like this: `0123456-789a-bcde-f123-456789`
 
-*`-filename=<filename>` sets the name of the file which will be written
+* `-filename=<filename>` sets the name of the file which will be written
