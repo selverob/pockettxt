@@ -30,7 +30,8 @@ func main() {
 	if *fToken == "" {
 		aToken, err = pocket.Auth(cKey)
 		if err != nil {
-			panic(err)
+			fmt.Println("Error while authenticating with Pocket: ", err)
+			return
 		}
 	} else {
 		aToken = *fToken
@@ -40,15 +41,21 @@ func main() {
 
 	urls, err := pocket.URLs(cKey, aToken)
 	if err != nil {
-		panic(err)
+		fmt.Println("Error while getting article list from Pocket: ", err)
+		return
 	}
 
 	as, err := diffbot.Articles(urls, dToken)
 	if err != nil {
-		panic(err)
+		fmt.Println("Error while loading articles from Diffbot: ", err)
+		return
 	}
 
 	err = writeArticles("pocket.txt", as)
+	if err != nil {
+		fmt.Println("Error while writing articles to file: ", err)
+		return
+	}
 }
 
 func writeArticles(filename string, as []article.Article) (err error) {
