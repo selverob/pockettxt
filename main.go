@@ -16,7 +16,8 @@ const (
 )
 
 var (
-	fToken = flag.String("aToken", "", "Authorization token provided by Pocket, if you have one.")
+	fToken   = flag.String("aToken", "", "Authorization token provided by Pocket, if you have one.")
+	filename = flag.String("filename", "pocket.txt", "filename of the exported file")
 )
 
 func main() {
@@ -52,15 +53,15 @@ func main() {
 	}
 
 	fmt.Println("Writing articles to a file.")
-	err = writeArticles("pocket.txt", as)
+	err = writeArticles(*filename, as)
 	if err != nil {
 		fmt.Println("Error while writing articles to file: ", err)
 		return
 	}
 }
 
-func writeArticles(filename string, as []article.Article) (err error) {
-	f, err := os.Create(filename)
+func writeArticles(fn string, as []article.Article) (err error) {
+	f, err := os.Create(fn)
 	if err != nil {
 		err = fmt.Errorf("couldn't create output file: %v", err)
 		return
