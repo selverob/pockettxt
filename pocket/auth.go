@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/toqueteos/webbrowser"
+	"net/http"
 )
 
 const (
-	redirURI = "http://sellweek.github.io/pockettxt"
+	redirURI = "http://127.0.0.1:50212"
 )
 
 func Auth(cKey string) (token string, err error) {
@@ -19,15 +20,28 @@ func Auth(cKey string) (token string, err error) {
 
 	url := fmt.Sprintf("https://getpocket.com/auth/authorize?request_token=%s&redirect_uri=%s", rToken, redirURI)
 	if err = webbrowser.Open(url); err == nil {
-		fmt.Println("Login page should have opened in your browser")
-		fmt.Println("Please log in and then come back and press enter")
+		c := make(chan bool)
+		fmt.Println("Communicating with Pocket.")
+		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+			fmt.Println("Got a response from Pocket.")
+			fmt.Fprint(w, "You can close this window now.")
+			c <- true
+		})
+		go func() {
+			if err := http.ListenAndServe(":50212", nil); err != nil {
+				panic(err)
+			}
+		}()
+
+		fmt.Println("Waiting for response.")
+		<-c
 	} else {
 		fmt.Println("Please open the following URL in your browser, log in and then press enter")
 		fmt.Println(url)
+		var str string
+		fmt.Scanf("%s", &str)
 	}
 
-	var str string
-	fmt.Scanf("%s", &str)
 	fmt.Println("Continuing authetication")
 
 	token, err = accessToken(cKey, rToken)
